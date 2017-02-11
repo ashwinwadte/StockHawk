@@ -12,12 +12,14 @@ import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import io.github.ashwinwadte.stockhawk.utils.Constants;
+
 public class StocksDeserializer implements JsonDeserializer<List<Stock>> {
     @Override
     public List<Stock> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         return new Gson().fromJson(json.getAsJsonObject()
-                .get("query").getAsJsonObject()
-                .get("results").getAsJsonObject()
-                .get("quote").getAsJsonArray(), typeOfT);
+                .get(Constants.JSON_QUERY).getAsJsonObject()
+                .get(Constants.JSON_RESULTS).getAsJsonObject()
+                .get(Constants.JSON_QUOTE).getAsJsonArray(), typeOfT);
     }
 }

@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.RemoteViews;
 
@@ -68,12 +69,12 @@ public class StockWidgetProvider extends AppWidgetProvider {
 
             appWidgetManager.updateAppWidget(appWidgetId1, remoteViews);
 
-//            remoteViews.setRemoteAdapter(R.id.widget_list, intent);
+            remoteViews.setRemoteAdapter(R.id.widget_list, intent);
 
-//            for (int appWidgetId : appWidgetIds) {
-//                updateAppWidget(context, appWidgetManager, appWidgetId);
-//                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
-//            }
+            for (int appWidgetId : appWidgetIds) {
+                updateAppWidget(context, appWidgetManager, appWidgetId);
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
+            }
             super.onUpdate(context, appWidgetManager, appWidgetIds);
         }
     }
@@ -91,6 +92,12 @@ public class StockWidgetProvider extends AppWidgetProvider {
     }
 
     @Override
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
+        appWidgetManager.notifyAppWidgetViewDataChanged(new int[]{appWidgetId}, R.id.widget_list);
+    }
+
+    @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
     }
@@ -100,4 +107,3 @@ public class StockWidgetProvider extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 }
-

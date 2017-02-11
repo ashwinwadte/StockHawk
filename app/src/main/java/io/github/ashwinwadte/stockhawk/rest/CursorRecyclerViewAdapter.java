@@ -5,12 +5,8 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.support.v7.widget.RecyclerView;
 
-/**
- * Created by sam_chordas on 10/6/15.
- * Credit to skyfishjy gist:
- * https://gist.github.com/skyfishjy/443b7448f59be978bc59
- * for the CursorRecyclerViewApater.java code and idea.
- */
+import io.github.ashwinwadte.stockhawk.data.QuoteColumns;
+
 public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     private static final String LOG_TAG = CursorRecyclerViewAdapter.class.getSimpleName();
     private Cursor mCursor;
@@ -21,7 +17,7 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     public CursorRecyclerViewAdapter(Context context, Cursor cursor) {
         mCursor = cursor;
         dataIsValid = cursor != null;
-        rowIdColumn = dataIsValid ? mCursor.getColumnIndex("_id") : -1;
+        rowIdColumn = dataIsValid ? mCursor.getColumnIndex(QuoteColumns._ID) : -1;
         mDataSetObserver = new NotifyingDataSetObserver();
         if (dataIsValid) {
             mCursor.registerDataSetObserver(mDataSetObserver);

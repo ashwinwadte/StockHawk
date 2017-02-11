@@ -37,6 +37,7 @@ import io.github.ashwinwadte.stockhawk.rest.Utils;
 import io.github.ashwinwadte.stockhawk.service.StockIntentService;
 import io.github.ashwinwadte.stockhawk.service.StockTaskService;
 import io.github.ashwinwadte.stockhawk.touch_helper.SimpleItemTouchHelperCallback;
+import io.github.ashwinwadte.stockhawk.utils.Constants;
 
 public class MyStocksActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -77,7 +78,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         mServiceIntent = new Intent(this, StockIntentService.class);
         if (savedInstanceState == null) {
             // Run the initialize task service so that some stocks appear upon an empty database
-            mServiceIntent.putExtra("tag", "init");
+            mServiceIntent.putExtra(Constants.INTENT_TAG, Constants.INIT);
             if (isConnected) {
                 startService(mServiceIntent);
             } else {
@@ -122,7 +123,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                     // in the DB and proceed accordingly
                                     Cursor c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
                                             new String[]{QuoteColumns.SYMBOL}, QuoteColumns.SYMBOL + "= ?",
-                                            new String[]{input.toString()}, null);
+                                            new String[]{input.toString().toUpperCase()}, null);
                                     if (c.getCount() != 0) {
                                         Toast toast =
                                                 Toast.makeText(MyStocksActivity.this, R.string.stock_already_saved,
@@ -132,8 +133,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                         return;
                                     } else {
                                         // Add the stock to DB
-                                        mServiceIntent.putExtra("tag", "add");
-                                        mServiceIntent.putExtra("symbol", input.toString());
+                                        mServiceIntent.putExtra(Constants.INTENT_TAG, Constants.ADD);
+                                        mServiceIntent.putExtra(Constants.INTENT_STOCK_SYMBOL, input.toString().toUpperCase());
                                         startService(mServiceIntent);
                                     }
                                 }
@@ -152,9 +153,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
         mTitle = getTitle();
         if (isConnected) {
-            long period = 3600L;
+            long period = 60L;
             long flex = 10L;
-            String periodicTag = "periodic";
 
             // create a periodic task to pull stocks once every hour after the app has been opened. This
             // is so Widget data stays up to date.
@@ -162,7 +162,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                     .setService(StockTaskService.class)
                     .setPeriod(period)
                     .setFlex(flex)
-                    .setTag(periodicTag)
+                    .setTag(Constants.PERIODIC)
                     .setRequiredNetwork(Task.NETWORK_STATE_CONNECTED)
                     .setRequiresCharging(false)
                     .build();

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import io.github.ashwinwadte.stockhawk.data.QuoteColumns;
 import io.github.ashwinwadte.stockhawk.data.QuoteProvider;
+import io.github.ashwinwadte.stockhawk.utils.Constants;
 
 
 public class Utils {
@@ -18,7 +19,7 @@ public class Utils {
     public static boolean showPercent = true;
     private static String LOG_TAG = Utils.class.getSimpleName();
 
-    public static ArrayList quoteJsonToContentVals(String JSON){
+    public static ArrayList quoteJsonToContentVals(String JSON) {
         ArrayList<ContentProviderOperation> batchOperations = new ArrayList<>();
         JSONObject jsonObject = null;
         JSONArray resultsArray = null;
@@ -44,8 +45,6 @@ public class Utils {
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "String to JSON failed: " + e);
-        }catch (Exception e){
-            Log.e("Invalid stock symbol", e.toString());
         }
         return batchOperations;
     }
@@ -76,11 +75,11 @@ public class Utils {
         ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(
                 QuoteProvider.Quotes.CONTENT_URI);
         try {
-            String change = jsonObject.getString("Change");
-            builder.withValue(QuoteColumns.SYMBOL, jsonObject.getString("symbol"));
-            builder.withValue(QuoteColumns.BIDPRICE, truncateBidPrice(jsonObject.getString("Bid")));
+            String change = jsonObject.getString(Constants.JSON_CHANGE);
+            builder.withValue(QuoteColumns.SYMBOL, jsonObject.getString(Constants.JSON_SYMBOL));
+            builder.withValue(QuoteColumns.BIDPRICE, truncateBidPrice(jsonObject.getString(Constants.JSON_BID)));
             builder.withValue(QuoteColumns.PERCENT_CHANGE, truncateChange(
-                    jsonObject.getString("ChangeinPercent"), true));
+                    jsonObject.getString(Constants.JSON_CHANGE_IN_PERCENT), true));
             builder.withValue(QuoteColumns.CHANGE, truncateChange(change, false));
             builder.withValue(QuoteColumns.ISCURRENT, 1);
             if (change.charAt(0) == '-') {

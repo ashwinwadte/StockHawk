@@ -4,8 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 /**
- * Created by sam_chordas on 10/6/15.
- * credit to Paul Burke (ipaulpro)
  * this class enables swipe to delete in RecyclerView
  */
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback{

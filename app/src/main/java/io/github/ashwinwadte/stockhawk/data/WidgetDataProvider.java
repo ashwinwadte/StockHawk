@@ -34,6 +34,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
         collection.clear();
 
         final long identityToken = Binder.clearCallingIdentity();
+        mCursor = null;
         mCursor = context.getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI, null, null, null, null);
 
         DatabaseUtils.dumpCursor(mCursor);
@@ -51,7 +52,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
                 collection.add(stock);
             }
         }
-//        mCursor.close();
+        mCursor.close();
         Binder.restoreCallingIdentity(identityToken);
     }
 
@@ -109,8 +110,6 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public long getItemId(int position) {
-        if (mCursor.moveToPosition(position))
-            return mCursor.getLong(0);
         return position;
     }
 
