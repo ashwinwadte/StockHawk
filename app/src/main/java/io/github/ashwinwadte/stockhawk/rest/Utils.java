@@ -1,7 +1,11 @@
 package io.github.ashwinwadte.stockhawk.rest;
 
 import android.content.ContentProviderOperation;
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,6 +13,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import io.github.ashwinwadte.stockhawk.R;
 import io.github.ashwinwadte.stockhawk.data.QuoteColumns;
 import io.github.ashwinwadte.stockhawk.data.QuoteProvider;
 import io.github.ashwinwadte.stockhawk.utils.Constants;
@@ -19,21 +24,21 @@ public class Utils {
     public static boolean showPercent = true;
     private static String LOG_TAG = Utils.class.getSimpleName();
 
-    public static ArrayList quoteJsonToContentVals(String JSON) {
+    public static ArrayList quoteJsonToContentVals(final Context mContext, String JSON) {
         ArrayList<ContentProviderOperation> batchOperations = new ArrayList<>();
-        JSONObject jsonObject = null;
-        JSONArray resultsArray = null;
+        JSONObject jsonObject;
+        JSONArray resultsArray;
         try {
             jsonObject = new JSONObject(JSON);
-            if (jsonObject != null && jsonObject.length() != 0) {
-                jsonObject = jsonObject.getJSONObject("query");
-                int count = Integer.parseInt(jsonObject.getString("count"));
+            if (jsonObject.length() != 0) {
+                jsonObject = jsonObject.getJSONObject(Constants.JSON_QUERY);
+                int count = Integer.parseInt(jsonObject.getString(Constants.JSON_COUNT));
                 if (count == 1) {
-                    jsonObject = jsonObject.getJSONObject("results")
-                            .getJSONObject("quote");
+                    jsonObject = jsonObject.getJSONObject(Constants.JSON_RESULTS)
+                            .getJSONObject(Constants.JSON_QUOTE);
                     batchOperations.add(buildBatchOperation(jsonObject));
                 } else {
-                    resultsArray = jsonObject.getJSONObject("results").getJSONArray("quote");
+                    resultsArray = jsonObject.getJSONObject(Constants.JSON_RESULTS).getJSONArray(Constants.JSON_QUOTE);
 
                     if (resultsArray != null && resultsArray.length() != 0) {
                         for (int i = 0; i < resultsArray.length(); i++) {
@@ -45,6 +50,14 @@ public class Utils {
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "String to JSON failed: " + e);
+        } catch (Exception e){
+            e.printStackTrace();
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mContext, R.string.wrong_symbol, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         return batchOperations;
     }

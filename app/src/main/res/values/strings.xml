@@ -1,5 +1,5 @@
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" translatable="false"><xliff:g id="app_name">Stock Hawk</xliff:g>  </string>
+<resources>
+    <string name="app_name">Stock Hawk</string>
 
     <string name="action_example">Example action</string>
 
@@ -7,15 +7,10 @@
     <string name="action_change_units">Change Units</string>
     <string name="symbol_search">Symbol Search</string>
     <string name="content_test">Search for a Stock Symbol</string>
-    <string name="input_hint" translatable="false">
-       <xliff:g id="fb_quote">FB</xliff:g>
-    </string>
-    <string name="input_prefill" translatable="false">
-        <xliff:g id="fb_quote">FB</xliff:g>
-    </string>
-    <string name="network_toast">This app requires an internet connection</string>
-    <string name="cd_fab">Add new stock symbol</string>
-    <string name="wrong_symbol">That was wrong symbol</string>
+    <string name="input_hint" translatable="false">Symbol (e.g. FB)</string>
+    <string name="input_prefill" translatable="false"></string>
+    <string name="network_toast">Uh-oh! This app requires an internet connection.</string>
+    <string name="wrong_symbol">That was wrong symbol!</string>
     <string name="chart_load_failed">Failed to load chart</string>
     <string name="stock_graph">Stock graph</string>
     <string name="appwidget_text">Stock Hawk</string>
@@ -25,13 +20,12 @@
     <string name="widget_title">Stock Values</string>
     <string name="stock_already_saved">This stock is already saved</string>
     <!-- These are sample string to show in stock item-->
-    <string name="sample_quote" translatable="false">
-        <xliff:g id="google_quote">
-        GOOG
-        </xliff:g>
-    </string>
+    <string name="sample_quote" translatable="false">GOOG</string>
     <string name="sample_bid_price">1000.00</string>
-    <string name="sample_percent" translatable="false">
-        100<xliff:g id="percent">%</xliff:g>
-    </string>
+    <string name="sample_percent" translatable="false">100%</string>
+
+    <!-- Content Description -->
+    <string name="cd_fab">Add new stock symbol</string>
+    <string name="cd_settings_menu">settings menu</string>
+    <string name="cd_change_unit_of_stock">change unit of stock</string>
 </resources>
