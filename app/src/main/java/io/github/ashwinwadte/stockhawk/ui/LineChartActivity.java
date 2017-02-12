@@ -11,6 +11,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.EntryXComparator;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
@@ -100,6 +101,8 @@ public class LineChartActivity extends Activity implements Callback<List<Stock>>
 
                 yValues.add(new Entry(Float.valueOf(stockList.get(i).getClose()), i));
             }
+            Collections.sort(yValues, new EntryXComparator());
+
 
             LineDataSet dataSet = new LineDataSet(yValues, mStockSymbol);
             LineData lineData = new LineData(dataSet);
